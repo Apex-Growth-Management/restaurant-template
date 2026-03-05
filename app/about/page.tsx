@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Leaf, Users, Target } from "lucide-react";
 
 const team = [
   {
@@ -20,6 +21,12 @@ const team = [
     bio: "With a background in craft distilleries and NYC cocktail bars, Liam curates a drinks menu as thoughtful as the food.",
     photo: "https://images.unsplash.com/photo-1567529692333-de9fd6772897?w=400&q=80&fit=crop",
   },
+];
+
+const values = [
+  { Icon: Leaf, title: "Local First", desc: "We partner with farms within 100 miles of Raleigh. Fresh produce, free-range proteins, and seasonal menus that change with the land." },
+  { Icon: Users, title: "Community Rooted", desc: "From fundraisers to private events, we see our dining room as an extension of the neighborhood we call home." },
+  { Icon: Target, title: "Craft Over Shortcuts", desc: "Everything from our sauces to our bread is made in-house. We don't cut corners because we believe the difference shows up on the plate." },
 ];
 
 export default function AboutPage() {
@@ -73,15 +80,13 @@ export default function AboutPage() {
             <h2 className="text-3xl font-extrabold">What We Stand For</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { icon: "🌱", title: "Local First", desc: "We partner with farms within 100 miles of Raleigh. Fresh produce, free-range proteins, and seasonal menus that change with the land." },
-              { icon: "🤝", title: "Community Rooted", desc: "From fundraisers to private events, we see our dining room as an extension of the neighborhood we call home." },
-              { icon: "🎯", title: "Craft Over Shortcuts", desc: "Everything from our sauces to our bread is made in-house. We don't cut corners because we believe the difference shows up on the plate." },
-            ].map((v) => (
-              <div key={v.title} className="bg-stone-950 border border-white/10 rounded-2xl p-6 text-center">
-                <div className="text-4xl mb-4">{v.icon}</div>
-                <h3 className="font-bold text-lg mb-2">{v.title}</h3>
-                <p className="text-white/50 text-sm leading-relaxed">{v.desc}</p>
+            {values.map(({ Icon, title, desc }) => (
+              <div key={title} className="bg-stone-950 border border-white/10 rounded-2xl p-6 text-center">
+                <div className="w-12 h-12 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Icon className="w-6 h-6 text-amber-500" />
+                </div>
+                <h3 className="font-bold text-lg mb-2">{title}</h3>
+                <p className="text-white/50 text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -97,7 +102,7 @@ export default function AboutPage() {
           className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-          <p className="text-2xl md:text-4xl font-extrabold text-center max-w-xl px-6">
+          <p className="text-2xl md:text-4xl font-extrabold text-center max-w-xl px-6 text-white">
             &ldquo;Every plate is a promise to do it right.&rdquo;
           </p>
         </div>

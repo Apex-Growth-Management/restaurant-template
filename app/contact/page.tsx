@@ -15,7 +15,6 @@ export default function ContactPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus("sending");
-    // Reservation form submission — connect to your backend or email service
     await new Promise((r) => setTimeout(r, 1000));
     setStatus("success");
   }
@@ -40,7 +39,11 @@ export default function ContactPage() {
 
           {status === "success" ? (
             <div className="text-center py-16">
-              <div className="text-5xl mb-4">🕯️</div>
+              <div className="w-16 h-16 bg-amber-500/10 border border-amber-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
               <h2 className="text-2xl font-bold mb-2">Reservation Request Sent!</h2>
               <p className="text-white/50">We&apos;ll confirm your table within a few hours. We look forward to seeing you.</p>
             </div>

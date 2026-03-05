@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Star } from "lucide-react";
 
 const dishes = [
   {
@@ -150,36 +151,16 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="relative rounded-2xl overflow-hidden h-48">
-              <Image
-                src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80&fit=crop"
-                alt="Restaurant interior"
-                fill
-                className="object-cover"
-              />
+              <Image src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80&fit=crop" alt="Restaurant interior" fill className="object-cover" />
             </div>
             <div className="relative rounded-2xl overflow-hidden h-48 mt-6">
-              <Image
-                src="https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&q=80&fit=crop"
-                alt="Craft cocktails"
-                fill
-                className="object-cover"
-              />
+              <Image src="https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&q=80&fit=crop" alt="Craft cocktails" fill className="object-cover" />
             </div>
             <div className="relative rounded-2xl overflow-hidden h-48">
-              <Image
-                src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=400&q=80&fit=crop"
-                alt="Chef preparing food"
-                fill
-                className="object-cover"
-              />
+              <Image src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=400&q=80&fit=crop" alt="Chef preparing food" fill className="object-cover" />
             </div>
             <div className="relative rounded-2xl overflow-hidden h-48 mt-6">
-              <Image
-                src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80&fit=crop"
-                alt="Fine dining"
-                fill
-                className="object-cover"
-              />
+              <Image src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80&fit=crop" alt="Fine dining" fill className="object-cover" />
             </div>
           </div>
         </div>
@@ -197,7 +178,7 @@ export default function HomePage() {
               <div key={r.name} className="bg-stone-950 border border-white/10 rounded-2xl p-6">
                 <div className="flex gap-1 mb-4">
                   {Array.from({ length: r.stars }).map((_, i) => (
-                    <span key={i} className="text-amber-500 text-lg">★</span>
+                    <Star key={i} className="w-4 h-4 fill-amber-500 text-amber-500" />
                   ))}
                 </div>
                 <p className="text-white/70 text-sm leading-relaxed mb-4">&ldquo;{r.text}&rdquo;</p>
@@ -218,7 +199,7 @@ export default function HomePage() {
         />
         <div className="absolute inset-0 bg-black/70" />
         <div className="relative z-10 max-w-2xl mx-auto">
-          <h2 className="text-3xl md:text-5xl font-extrabold mb-6">Ready for an Unforgettable Evening?</h2>
+          <h2 className="text-3xl md:text-5xl font-extrabold mb-6 text-white">Ready for an Unforgettable Evening?</h2>
           <p className="text-white/60 mb-8 text-lg">
             Reservations recommended, walk-ins welcome based on availability.
           </p>
