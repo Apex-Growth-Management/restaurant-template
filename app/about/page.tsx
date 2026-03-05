@@ -85,7 +85,7 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-3 gap-8">
             {team.map((member) => (
               <div key={member.name} className="bg-stone-950 border border-white/10 rounded-2xl p-6">
-                <div className="w-14 h-14 bg-amber-500/10 border border-amber-500/20 rounded-full flex items-center justify-center text-2xl mb-4">
+                <div className="w-14 h-14 bg-amber-500/10 border border-amber-500/20 rounded-lg flex items-center justify-center text-2xl mb-4">
                   👨‍🍳
                 </div>
                 <h3 className="font-bold text-lg">{member.name}</h3>
@@ -103,7 +103,7 @@ export default function AboutPage() {
         <p className="text-white/50 mb-8">Reservations recommended. Walk-ins always welcome.</p>
         <Link
           href="/contact"
-          className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-8 py-4 rounded-full text-lg transition-colors"
+          className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-8 py-4 rounded-lg text-lg transition-colors"
         >
           Reserve a Table
         </Link>

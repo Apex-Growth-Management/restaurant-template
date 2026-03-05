@@ -20,7 +20,7 @@ export default function Navbar() {
           <Link href="/menu" className="text-white/70 hover:text-white transition-colors">Menu</Link>
           <Link href="/about" className="text-white/70 hover:text-white transition-colors">About</Link>
           <a href="tel:9195550123" className="text-white/70 hover:text-white transition-colors">(919) 555-0123</a>
-          <Link href="/contact" className="bg-amber-500 hover:bg-amber-400 text-black font-semibold px-5 py-2 rounded-full transition-colors">
+          <Link href="/contact" className="bg-amber-500 hover:bg-amber-400 text-black font-semibold px-5 py-2 rounded-lg transition-colors">
             Reserve a Table
           </Link>
         </div>
@@ -48,7 +48,7 @@ export default function Navbar() {
           <Link href="/menu" onClick={() => setOpen(false)} className="text-white/70 hover:text-white transition-colors">Menu</Link>
           <Link href="/about" onClick={() => setOpen(false)} className="text-white/70 hover:text-white transition-colors">About</Link>
           <a href="tel:9195550123" onClick={() => setOpen(false)} className="text-white/70 hover:text-white transition-colors">(919) 555-0123</a>
-          <Link href="/contact" onClick={() => setOpen(false)} className="bg-amber-500 hover:bg-amber-400 text-black font-semibold px-5 py-2 rounded-full text-center transition-colors">
+          <Link href="/contact" onClick={() => setOpen(false)} className="bg-amber-500 hover:bg-amber-400 text-black font-semibold px-5 py-2 rounded-lg text-center transition-colors">
             Reserve a Table
           </Link>
         </div>

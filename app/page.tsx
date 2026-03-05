@@ -57,13 +57,13 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact"
-              className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-8 py-4 rounded-full text-lg transition-colors"
+              className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-8 py-4 rounded-lg text-lg transition-colors"
             >
               Reserve a Table
             </Link>
             <Link
               href="/menu"
-              className="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold px-8 py-4 rounded-full text-lg transition-colors"
+              className="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold px-8 py-4 rounded-lg text-lg transition-colors"
             >
               View Menu
             </Link>
@@ -91,7 +91,7 @@ export default function HomePage() {
             {dishes.map((dish) => (
               <div key={dish.name} className="bg-stone-950 border border-white/10 rounded-2xl p-6 hover:border-amber-500/30 transition-colors">
                 <div className="flex items-start justify-between mb-3">
-                  <span className="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-full px-3 py-1 font-medium">
+                  <span className="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-lg px-3 py-1 font-medium">
                     {dish.tag}
                   </span>
                   <span className="text-amber-500 font-bold text-lg">{dish.price}</span>
@@ -166,7 +166,7 @@ export default function HomePage() {
           </p>
           <Link
             href="/contact"
-            className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-10 py-5 rounded-full text-xl transition-colors"
+            className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-10 py-5 rounded-lg text-xl transition-colors"
           >
             Reserve Your Table
           </Link>

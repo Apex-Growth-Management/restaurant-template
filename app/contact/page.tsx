@@ -132,7 +132,7 @@ export default function ContactPage() {
 
               <button
                 type="submit" disabled={status === "sending"}
-                className="bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black font-bold py-4 rounded-full text-lg transition-colors mt-2"
+                className="bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black font-bold py-4 rounded-lg text-lg transition-colors mt-2"
               >
                 {status === "sending" ? "Sending..." : "Request Reservation"}
               </button>

@@ -80,7 +80,7 @@ export default function MenuPage() {
             <p className="text-white/30 text-sm mb-6">GF = Gluten-Friendly available · V = Vegetarian · Ask your server for details.</p>
             <Link
               href="/contact"
-              className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-8 py-4 rounded-full text-lg transition-colors"
+              className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-8 py-4 rounded-lg text-lg transition-colors"
             >
               Reserve a Table
             </Link>
