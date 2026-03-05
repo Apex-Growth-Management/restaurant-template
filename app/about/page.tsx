@@ -148,9 +148,22 @@ export default function AboutPage() {
           Reserve a Table
         </Link>
       </section>
-
-      <footer className="border-t border-white/10 py-8 px-6 text-center text-white/30 text-sm">
-        © {new Date().getFullYear()} Ember & Oak Kitchen. All rights reserved.
+      <footer className="border-t border-white/10 py-10 px-6 bg-stone-950">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-sm">
+          <div>
+            <p className="font-bold text-lg"><span className="text-amber-500">Ember &amp; Oak</span><span className="text-white/80"> Kitchen</span></p>
+            <p className="text-white/30 text-xs mt-1">© {new Date().getFullYear()} All rights reserved.</p>
+          </div>
+          <div className="flex flex-col sm:flex-row items-center gap-4 text-white/40">
+            <a href="tel:5550000000" className="hover:text-white/70 transition-colors">(555) 000-0000</a>
+            <span className="hidden sm:inline text-white/20">·</span>
+            <span>Your City, ST 00000</span>
+          </div>
+          <div className="flex flex-col items-center sm:items-end gap-1 text-white/30 text-xs">
+            <span>Mon–Thu: 5pm – 10pm</span>
+            <span>Fri–Sat: 5pm – 11pm &nbsp;·&nbsp; Sun: 4pm – 9pm</span>
+          </div>
+        </div>
       </footer>
     </main>
   );
