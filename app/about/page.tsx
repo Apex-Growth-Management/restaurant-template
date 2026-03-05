@@ -1,20 +1,24 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const team = [
   {
     name: "Marcus Webb",
     role: "Executive Chef & Co-Founder",
     bio: "Trained in New Orleans and New York, Marcus brings 15 years of fine dining experience to every plate. His philosophy: bold flavors, local roots.",
+    photo: "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?w=400&q=80&fit=crop",
   },
   {
     name: "Diane Okafor",
     role: "Pastry Chef",
     bio: "Diane studied at the French Culinary Institute and has a passion for turning simple ingredients into unforgettable finales.",
+    photo: "https://images.unsplash.com/photo-1607631568010-a87245c0daf8?w=400&q=80&fit=crop",
   },
   {
     name: "Liam Hargrove",
     role: "Bar Director",
     bio: "With a background in craft distilleries and NYC cocktail bars, Liam curates a drinks menu as thoughtful as the food.",
+    photo: "https://images.unsplash.com/photo-1567529692333-de9fd6772897?w=400&q=80&fit=crop",
   },
 ];
 
@@ -22,19 +26,34 @@ export default function AboutPage() {
   return (
     <main className="bg-stone-950 text-white pt-24 min-h-screen">
       {/* Hero */}
-      <section className="py-20 px-6">
-        <div className="max-w-3xl mx-auto text-center">
+      <section className="relative py-32 px-6 overflow-hidden">
+        <Image
+          src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80&fit=crop"
+          alt="Restaurant interior"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-black/70" />
+        <div className="relative z-10 max-w-3xl mx-auto text-center">
           <p className="text-amber-500 text-sm font-semibold uppercase tracking-widest mb-3">Our Story</p>
           <h1 className="text-4xl md:text-6xl font-extrabold mb-6">Built Around the Table</h1>
-          <p className="text-white/60 text-lg leading-relaxed">
+          <p className="text-white/70 text-lg leading-relaxed">
             Ember & Oak Kitchen opened in 2019 with one goal: create a place where people actually want to linger. Not just eat — but stay, talk, and come back.
           </p>
         </div>
       </section>
 
       {/* Story */}
-      <section className="py-16 px-6 bg-stone-900">
-        <div className="max-w-3xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+      <section className="py-20 px-6">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+          <div className="relative rounded-2xl overflow-hidden h-96">
+            <Image
+              src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80&fit=crop"
+              alt="Restaurant dining room"
+              fill
+              className="object-cover"
+            />
+          </div>
           <div>
             <h2 className="text-2xl md:text-3xl font-extrabold mb-4">From a Dream to Downtown Raleigh</h2>
             <p className="text-white/60 leading-relaxed mb-4">
@@ -44,17 +63,11 @@ export default function AboutPage() {
               The name &ldquo;Ember & Oak&rdquo; was chosen deliberately — fire and wood, two elements that define how we cook. Low and slow. With intention.
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-stone-950 rounded-2xl h-36 flex items-center justify-center text-5xl border border-white/5">🌲</div>
-            <div className="bg-stone-950 rounded-2xl h-36 flex items-center justify-center text-5xl border border-white/5 mt-6">🔥</div>
-            <div className="bg-stone-950 rounded-2xl h-36 flex items-center justify-center text-5xl border border-white/5">🍽️</div>
-            <div className="bg-stone-950 rounded-2xl h-36 flex items-center justify-center text-5xl border border-white/5 mt-6">🥂</div>
-          </div>
         </div>
       </section>
 
       {/* Values */}
-      <section className="py-20 px-6">
+      <section className="py-20 px-6 bg-stone-900">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-extrabold">What We Stand For</h2>
@@ -65,13 +78,28 @@ export default function AboutPage() {
               { icon: "🤝", title: "Community Rooted", desc: "From fundraisers to private events, we see our dining room as an extension of the neighborhood we call home." },
               { icon: "🎯", title: "Craft Over Shortcuts", desc: "Everything from our sauces to our bread is made in-house. We don't cut corners because we believe the difference shows up on the plate." },
             ].map((v) => (
-              <div key={v.title} className="bg-stone-900 border border-white/10 rounded-2xl p-6 text-center">
+              <div key={v.title} className="bg-stone-950 border border-white/10 rounded-2xl p-6 text-center">
                 <div className="text-4xl mb-4">{v.icon}</div>
                 <h3 className="font-bold text-lg mb-2">{v.title}</h3>
                 <p className="text-white/50 text-sm leading-relaxed">{v.desc}</p>
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Kitchen photo */}
+      <section className="relative h-72 overflow-hidden">
+        <Image
+          src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=1920&q=80&fit=crop"
+          alt="Chef in kitchen"
+          fill
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+          <p className="text-2xl md:text-4xl font-extrabold text-center max-w-xl px-6">
+            &ldquo;Every plate is a promise to do it right.&rdquo;
+          </p>
         </div>
       </section>
 
@@ -84,13 +112,20 @@ export default function AboutPage() {
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {team.map((member) => (
-              <div key={member.name} className="bg-stone-950 border border-white/10 rounded-2xl p-6">
-                <div className="w-14 h-14 bg-amber-500/10 border border-amber-500/20 rounded-lg flex items-center justify-center text-2xl mb-4">
-                  👨‍🍳
+              <div key={member.name} className="bg-stone-950 border border-white/10 rounded-2xl overflow-hidden">
+                <div className="relative h-56">
+                  <Image
+                    src={member.photo}
+                    alt={member.name}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
-                <h3 className="font-bold text-lg">{member.name}</h3>
-                <p className="text-amber-500 text-sm mb-3">{member.role}</p>
-                <p className="text-white/50 text-sm leading-relaxed">{member.bio}</p>
+                <div className="p-5">
+                  <h3 className="font-bold text-lg">{member.name}</h3>
+                  <p className="text-amber-500 text-sm mb-3">{member.role}</p>
+                  <p className="text-white/50 text-sm leading-relaxed">{member.bio}</p>
+                </div>
               </div>
             ))}
           </div>

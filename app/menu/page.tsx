@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const menuSections = [
   {
@@ -43,15 +44,25 @@ const menuSections = [
 export default function MenuPage() {
   return (
     <main className="bg-stone-950 text-white pt-24 min-h-screen">
+      {/* Hero */}
+      <section className="relative h-64 overflow-hidden">
+        <Image
+          src="https://images.unsplash.com/photo-1484723091739-30990fd6a9a9?w=1920&q=80&fit=crop"
+          alt="Food spread"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-black/65 flex flex-col items-center justify-center text-center px-6">
+          <p className="text-amber-500 text-sm font-semibold uppercase tracking-widest mb-2">Ember & Oak Kitchen</p>
+          <h1 className="text-4xl md:text-6xl font-extrabold">Our Menu</h1>
+        </div>
+      </section>
+
       <section className="py-20 px-6">
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="text-amber-500 text-sm font-semibold uppercase tracking-widest mb-3">Ember & Oak Kitchen</p>
-            <h1 className="text-4xl md:text-6xl font-extrabold mb-4">Our Menu</h1>
-            <p className="text-white/50 text-lg">
-              Seasonal ingredients. Handcrafted everything. Menu changes regularly based on what&apos;s fresh.
-            </p>
-          </div>
+          <p className="text-white/50 text-lg text-center mb-16">
+            Seasonal ingredients. Handcrafted everything. Menu changes regularly based on what&apos;s fresh.
+          </p>
 
           <div className="flex flex-col gap-16">
             {menuSections.map((section) => (

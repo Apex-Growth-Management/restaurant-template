@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const dishes = [
   {
@@ -6,18 +7,21 @@ const dishes = [
     description: "12-hour oak-smoked brisket with house BBQ glaze, roasted garlic mash, and seasonal greens.",
     price: "$32",
     tag: "Chef's Pick",
+    photo: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&q=80&fit=crop",
   },
   {
     name: "Pan-Seared Salmon",
     description: "Atlantic salmon with lemon caper butter, wild rice pilaf, and charred asparagus.",
     price: "$28",
     tag: "Fan Favorite",
+    photo: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=600&q=80&fit=crop",
   },
   {
     name: "Truffle Mushroom Risotto",
     description: "Arborio rice, wild mushroom medley, black truffle oil, aged parmesan, and fresh herbs.",
     price: "$24",
     tag: "Vegetarian",
+    photo: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=600&q=80&fit=crop",
   },
 ];
 
@@ -43,15 +47,22 @@ export default function HomePage() {
   return (
     <main className="bg-stone-950 text-white">
       {/* Hero */}
-      <section className="min-h-screen flex flex-col items-center justify-center text-center px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-amber-900/10 via-transparent to-stone-950 pointer-events-none" />
+      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
+        <Image
+          src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&q=80&fit=crop"
+          alt="Ember & Oak restaurant interior"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/65" />
         <div className="relative z-10 max-w-3xl mx-auto">
-          <p className="text-amber-500 text-sm font-semibold uppercase tracking-widest mb-4">Raleigh, NC — Est. 2019</p>
+          <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-4">Raleigh, NC — Est. 2019</p>
           <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
             Where Every Meal<br />
-            <span className="text-amber-500">Tells a Story</span>
+            <span className="text-amber-400">Tells a Story</span>
           </h1>
-          <p className="text-white/60 text-lg md:text-xl mb-10 max-w-xl mx-auto">
+          <p className="text-white/70 text-lg md:text-xl mb-10 max-w-xl mx-auto">
             Handcrafted dishes, seasonal ingredients, and an atmosphere that feels like home — elevated.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -63,15 +74,13 @@ export default function HomePage() {
             </Link>
             <Link
               href="/menu"
-              className="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold px-8 py-4 rounded-lg text-lg transition-colors"
+              className="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold px-8 py-4 rounded-lg text-lg transition-colors"
             >
               View Menu
             </Link>
           </div>
         </div>
-
-        {/* Hours badge */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-6 text-sm text-white/40">
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-6 text-sm text-white/50 z-10">
           <span>Mon–Thu: 5pm – 10pm</span>
           <span>·</span>
           <span>Fri–Sat: 5pm – 11pm</span>
@@ -89,15 +98,29 @@ export default function HomePage() {
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {dishes.map((dish) => (
-              <div key={dish.name} className="bg-stone-950 border border-white/10 rounded-2xl p-6 hover:border-amber-500/30 transition-colors">
-                <div className="flex items-start justify-between mb-3">
-                  <span className="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-lg px-3 py-1 font-medium">
-                    {dish.tag}
-                  </span>
-                  <span className="text-amber-500 font-bold text-lg">{dish.price}</span>
+              <div key={dish.name} className="bg-stone-950 border border-white/10 rounded-2xl overflow-hidden hover:border-amber-500/30 transition-colors group">
+                <div className="relative h-48 overflow-hidden">
+                  <Image
+                    src={dish.photo}
+                    alt={dish.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-3 left-3">
+                    <span className="text-xs bg-black/70 text-amber-400 border border-amber-500/30 rounded-full px-3 py-1 font-medium backdrop-blur-sm">
+                      {dish.tag}
+                    </span>
+                  </div>
+                  <div className="absolute top-3 right-3">
+                    <span className="text-sm bg-black/70 text-amber-400 font-bold px-3 py-1 rounded-full backdrop-blur-sm">
+                      {dish.price}
+                    </span>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold mb-2">{dish.name}</h3>
-                <p className="text-white/50 text-sm leading-relaxed">{dish.description}</p>
+                <div className="p-5">
+                  <h3 className="text-lg font-bold mb-2">{dish.name}</h3>
+                  <p className="text-white/50 text-sm leading-relaxed">{dish.description}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -126,10 +149,38 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-stone-900 rounded-2xl h-40 flex items-center justify-center text-4xl border border-white/5">🔥</div>
-            <div className="bg-stone-900 rounded-2xl h-40 flex items-center justify-center text-4xl border border-white/5 mt-6">🍷</div>
-            <div className="bg-stone-900 rounded-2xl h-40 flex items-center justify-center text-4xl border border-white/5">🥩</div>
-            <div className="bg-stone-900 rounded-2xl h-40 flex items-center justify-center text-4xl border border-white/5 mt-6">🌿</div>
+            <div className="relative rounded-2xl overflow-hidden h-48">
+              <Image
+                src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80&fit=crop"
+                alt="Restaurant interior"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="relative rounded-2xl overflow-hidden h-48 mt-6">
+              <Image
+                src="https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&q=80&fit=crop"
+                alt="Craft cocktails"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="relative rounded-2xl overflow-hidden h-48">
+              <Image
+                src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=400&q=80&fit=crop"
+                alt="Chef preparing food"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="relative rounded-2xl overflow-hidden h-48 mt-6">
+              <Image
+                src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80&fit=crop"
+                alt="Fine dining"
+                fill
+                className="object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -158,10 +209,17 @@ export default function HomePage() {
       </section>
 
       {/* Reservation CTA */}
-      <section className="py-24 px-6 text-center">
-        <div className="max-w-2xl mx-auto">
+      <section className="relative py-32 px-6 text-center overflow-hidden">
+        <Image
+          src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=1920&q=80&fit=crop"
+          alt="Dining table setting"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-black/70" />
+        <div className="relative z-10 max-w-2xl mx-auto">
           <h2 className="text-3xl md:text-5xl font-extrabold mb-6">Ready for an Unforgettable Evening?</h2>
-          <p className="text-white/50 mb-8 text-lg">
+          <p className="text-white/60 mb-8 text-lg">
             Reservations recommended, walk-ins welcome based on availability.
           </p>
           <Link
@@ -173,7 +231,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <footer className="border-t border-white/10 py-8 px-6 text-center text-white/30 text-sm">
+      <footer className="border-t border-white/10 py-8 px-6 text-center text-white/30 text-sm bg-stone-950">
         © {new Date().getFullYear()} Ember & Oak Kitchen. All rights reserved.
       </footer>
     </main>
