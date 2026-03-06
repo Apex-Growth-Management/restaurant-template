@@ -1,92 +1,71 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Star } from "lucide-react";
+import { sanityFetch } from "@/sanity/lib/live";
+import { urlFor } from "@/sanity/lib/image";
 
-const dishes = [
-  {
-    name: "Smoked Brisket",
-    description: "12-hour oak-smoked brisket with house BBQ glaze, roasted garlic mash, and seasonal greens.",
-    price: "$32",
-    tag: "Chef's Pick",
-    photo: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&q=80&fit=crop",
-  },
-  {
-    name: "Pan-Seared Salmon",
-    description: "Atlantic salmon with lemon caper butter, wild rice pilaf, and charred asparagus.",
-    price: "$28",
-    tag: "Fan Favorite",
-    photo: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=600&q=80&fit=crop",
-  },
-  {
-    name: "Truffle Mushroom Risotto",
-    description: "Arborio rice, wild mushroom medley, black truffle oil, aged parmesan, and fresh herbs.",
-    price: "$24",
-    tag: "Vegetarian",
-    photo: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=600&q=80&fit=crop",
-  },
+const defaultDishes = [
+  { _id: "1", name: "Smoked Brisket", description: "12-hour oak-smoked brisket with house BBQ glaze, roasted garlic mash, and seasonal greens.", price: "$32", tag: "Chef's Pick", photoUrl: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&q=80&fit=crop" },
+  { _id: "2", name: "Pan-Seared Salmon", description: "Atlantic salmon with lemon caper butter, wild rice pilaf, and charred asparagus.", price: "$28", tag: "Fan Favorite", photoUrl: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=600&q=80&fit=crop" },
+  { _id: "3", name: "Truffle Mushroom Risotto", description: "Arborio rice, wild mushroom medley, black truffle oil, aged parmesan, and fresh herbs.", price: "$24", tag: "Vegetarian", photoUrl: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=600&q=80&fit=crop" },
 ];
 
-const reviews = [
-  {
-    name: "Sarah M.",
-    text: "The atmosphere is incredible and the food is even better. The brisket is unlike anything I've had in Raleigh.",
-    stars: 5,
-  },
-  {
-    name: "James T.",
-    text: "Ember & Oak has become our go-to for date nights. Impeccable service and a wine list that never disappoints.",
-    stars: 5,
-  },
-  {
-    name: "Priya K.",
-    text: "The truffle risotto is absolutely divine. We've been back three times in the past month.",
-    stars: 5,
-  },
+const defaultReviews = [
+  { _id: "1", name: "Sarah M.", text: "The atmosphere is incredible and the food is even better. The brisket is unlike anything I've had in Raleigh.", stars: 5 },
+  { _id: "2", name: "James T.", text: "Ember & Oak has become our go-to for date nights. Impeccable service and a wine list that never disappoints.", stars: 5 },
+  { _id: "3", name: "Priya K.", text: "The truffle risotto is absolutely divine. We've been back three times in the past month.", stars: 5 },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [{ data: settings }, { data: sanityDishes }, { data: sanityReviews }] = await Promise.all([
+    sanityFetch({ query: `*[_type == "siteSettings" && _id == "siteSettings"][0]` }),
+    sanityFetch({ query: `*[_type == "menuItem"] | order(order asc)[0...3] { _id, name, description, price, tag, photo }` }),
+    sanityFetch({ query: `*[_type == "review"] | order(order asc)` }),
+  ]);
+
+  const restaurantName = settings?.restaurantName || "Ember & Oak";
+  const tagline = settings?.tagline || "Raleigh, NC — Est. 2019";
+  const heroTitle = settings?.heroTitle || "Where Every Meal";
+  const heroSubtitle = settings?.heroSubtitle || "Handcrafted dishes, seasonal ingredients, and an atmosphere that feels like home — elevated.";
+  const phone = settings?.phone || "(555) 000-0000";
+  const address = settings?.address || "Your City, ST 00000";
+  const hoursWeekday = settings?.hoursWeekday || "Mon–Thu: 5pm – 10pm";
+  const hoursWeekend = settings?.hoursWeekend || "Fri–Sat: 5pm – 11pm";
+  const hoursSunday = settings?.hoursSunday || "Sun: 4pm – 9pm";
+
+  const dishes = sanityDishes?.length
+    ? sanityDishes.map((d: { _id: string; name: string; description: string; price: string; tag: string; photo?: object }) => ({
+        ...d,
+        photoUrl: d.photo ? urlFor(d.photo).width(600).url() : "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&q=80&fit=crop",
+      }))
+    : defaultDishes;
+
+  const reviews = sanityReviews?.length ? sanityReviews : defaultReviews;
+
   return (
     <main className="bg-stone-950 text-white">
       {/* Hero */}
       <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
-        <Image
-          src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&q=80&fit=crop"
-          alt="Ember & Oak restaurant interior"
-          fill
-          className="object-cover"
-          priority
-        />
+        <Image src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&q=80&fit=crop" alt="Restaurant interior" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-black/65" />
         <div className="relative z-10 max-w-3xl mx-auto">
-          <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-4">Raleigh, NC — Est. 2019</p>
+          <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-4">{tagline}</p>
           <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
-            Where Every Meal<br />
+            {heroTitle}<br />
             <span className="text-amber-400">Tells a Story</span>
           </h1>
-          <p className="text-white/70 text-lg md:text-xl mb-10 max-w-xl mx-auto">
-            Handcrafted dishes, seasonal ingredients, and an atmosphere that feels like home — elevated.
-          </p>
+          <p className="text-white/70 text-lg md:text-xl mb-10 max-w-xl mx-auto">{heroSubtitle}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/contact"
-              className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-8 py-4 rounded-lg text-lg transition-colors"
-            >
-              Reserve a Table
-            </Link>
-            <Link
-              href="/menu"
-              className="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold px-8 py-4 rounded-lg text-lg transition-colors"
-            >
-              View Menu
-            </Link>
+            <Link href="/contact" className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-8 py-4 rounded-lg text-lg transition-colors">Reserve a Table</Link>
+            <Link href="/menu" className="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold px-8 py-4 rounded-lg text-lg transition-colors">View Menu</Link>
           </div>
         </div>
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-6 text-sm text-white/50 z-10">
-          <span>Mon–Thu: 5pm – 10pm</span>
+          <span>{hoursWeekday}</span>
           <span>·</span>
-          <span>Fri–Sat: 5pm – 11pm</span>
+          <span>{hoursWeekend}</span>
           <span>·</span>
-          <span>Sun: 4pm – 9pm</span>
+          <span>{hoursSunday}</span>
         </div>
       </section>
 
@@ -98,25 +77,20 @@ export default function HomePage() {
             <h2 className="text-3xl md:text-5xl font-extrabold">Tonight&apos;s Favorites</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            {dishes.map((dish) => (
-              <div key={dish.name} className="bg-stone-950 border border-white/10 rounded-2xl overflow-hidden hover:border-amber-500/30 transition-colors group">
+            {dishes.map((dish: { _id: string; name: string; description: string; price: string; tag: string; photoUrl: string }) => (
+              <div key={dish._id} className="bg-stone-950 border border-white/10 rounded-2xl overflow-hidden hover:border-amber-500/30 transition-colors group">
                 <div className="relative h-48 overflow-hidden">
-                  <Image
-                    src={dish.photo}
-                    alt={dish.name}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-3 left-3">
-                    <span className="text-xs bg-black/70 text-amber-400 border border-amber-500/30 rounded-full px-3 py-1 font-medium backdrop-blur-sm">
-                      {dish.tag}
-                    </span>
-                  </div>
-                  <div className="absolute top-3 right-3">
-                    <span className="text-sm bg-black/70 text-amber-400 font-bold px-3 py-1 rounded-full backdrop-blur-sm">
-                      {dish.price}
-                    </span>
-                  </div>
+                  <Image src={dish.photoUrl} alt={dish.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                  {dish.tag && (
+                    <div className="absolute top-3 left-3">
+                      <span className="text-xs bg-black/70 text-amber-400 border border-amber-500/30 rounded-full px-3 py-1 font-medium backdrop-blur-sm">{dish.tag}</span>
+                    </div>
+                  )}
+                  {dish.price && (
+                    <div className="absolute top-3 right-3">
+                      <span className="text-sm bg-black/70 text-amber-400 font-bold px-3 py-1 rounded-full backdrop-blur-sm">{dish.price}</span>
+                    </div>
+                  )}
                 </div>
                 <div className="p-5">
                   <h3 className="text-lg font-bold mb-2">{dish.name}</h3>
@@ -126,42 +100,26 @@ export default function HomePage() {
             ))}
           </div>
           <div className="text-center mt-10">
-            <Link href="/menu" className="text-amber-500 hover:text-amber-400 font-semibold transition-colors">
-              See Full Menu →
-            </Link>
+            <Link href="/menu" className="text-amber-500 hover:text-amber-400 font-semibold transition-colors">See Full Menu →</Link>
           </div>
         </div>
       </section>
 
-      {/* About / Ambiance */}
+      {/* About */}
       <section className="py-24 px-6">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <div>
             <p className="text-amber-500 text-sm font-semibold uppercase tracking-widest mb-3">Our Story</p>
             <h2 className="text-3xl md:text-4xl font-extrabold mb-6">Rooted in Craft,<br />Driven by Flavor</h2>
-            <p className="text-white/60 leading-relaxed mb-4">
-              Ember & Oak was born from a simple idea: great food deserves great atmosphere. Our chefs source locally whenever possible, building menus around what&apos;s fresh, seasonal, and bold.
-            </p>
-            <p className="text-white/60 leading-relaxed mb-8">
-              Whether you&apos;re celebrating a milestone or just craving a night out, we&apos;re here to make it memorable.
-            </p>
-            <Link href="/about" className="text-amber-500 hover:text-amber-400 font-semibold transition-colors">
-              Learn More About Us →
-            </Link>
+            <p className="text-white/60 leading-relaxed mb-4">{restaurantName} was born from a simple idea: great food deserves great atmosphere. Our chefs source locally whenever possible, building menus around what&apos;s fresh, seasonal, and bold.</p>
+            <p className="text-white/60 leading-relaxed mb-8">Whether you&apos;re celebrating a milestone or just craving a night out, we&apos;re here to make it memorable.</p>
+            <Link href="/about" className="text-amber-500 hover:text-amber-400 font-semibold transition-colors">Learn More About Us →</Link>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="relative rounded-2xl overflow-hidden h-48">
-              <Image src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80&fit=crop" alt="Restaurant interior" fill className="object-cover" />
-            </div>
-            <div className="relative rounded-2xl overflow-hidden h-48 mt-6">
-              <Image src="https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&q=80&fit=crop" alt="Craft cocktails" fill className="object-cover" />
-            </div>
-            <div className="relative rounded-2xl overflow-hidden h-48">
-              <Image src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=400&q=80&fit=crop" alt="Chef preparing food" fill className="object-cover" />
-            </div>
-            <div className="relative rounded-2xl overflow-hidden h-48 mt-6">
-              <Image src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80&fit=crop" alt="Fine dining" fill className="object-cover" />
-            </div>
+            <div className="relative rounded-2xl overflow-hidden h-48"><Image src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80&fit=crop" alt="Restaurant interior" fill className="object-cover" /></div>
+            <div className="relative rounded-2xl overflow-hidden h-48 mt-6"><Image src="https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&q=80&fit=crop" alt="Craft cocktails" fill className="object-cover" /></div>
+            <div className="relative rounded-2xl overflow-hidden h-48"><Image src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=400&q=80&fit=crop" alt="Chef preparing food" fill className="object-cover" /></div>
+            <div className="relative rounded-2xl overflow-hidden h-48 mt-6"><Image src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80&fit=crop" alt="Fine dining" fill className="object-cover" /></div>
           </div>
         </div>
       </section>
@@ -174,8 +132,8 @@ export default function HomePage() {
             <h2 className="text-3xl md:text-5xl font-extrabold">What People Are Saying</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            {reviews.map((r) => (
-              <div key={r.name} className="bg-stone-950 border border-white/10 rounded-2xl p-6">
+            {reviews.map((r: { _id: string; name: string; text: string; stars: number }) => (
+              <div key={r._id} className="bg-stone-950 border border-white/10 rounded-2xl p-6">
                 <div className="flex gap-1 mb-4">
                   {Array.from({ length: r.stars }).map((_, i) => (
                     <Star key={i} className="w-4 h-4 fill-amber-500 text-amber-500" />
@@ -189,42 +147,31 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Reservation CTA */}
+      {/* CTA */}
       <section className="relative py-32 px-6 text-center overflow-hidden">
-        <Image
-          src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=1920&q=80&fit=crop"
-          alt="Dining table setting"
-          fill
-          className="object-cover"
-        />
+        <Image src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=1920&q=80&fit=crop" alt="Dining table setting" fill className="object-cover" />
         <div className="absolute inset-0 bg-black/70" />
         <div className="relative z-10 max-w-2xl mx-auto">
           <h2 className="text-3xl md:text-5xl font-extrabold mb-6 text-white">Ready for an Unforgettable Evening?</h2>
-          <p className="text-white/60 mb-8 text-lg">
-            Reservations recommended, walk-ins welcome based on availability.
-          </p>
-          <Link
-            href="/contact"
-            className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-10 py-5 rounded-lg text-xl transition-colors"
-          >
-            Reserve Your Table
-          </Link>
+          <p className="text-white/60 mb-8 text-lg">Reservations recommended, walk-ins welcome based on availability.</p>
+          <Link href="/contact" className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-10 py-5 rounded-lg text-xl transition-colors">Reserve Your Table</Link>
         </div>
       </section>
+
       <footer className="border-t border-white/10 py-10 px-6 bg-stone-950">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-sm">
           <div>
-            <p className="font-bold text-lg"><span className="text-amber-500">Ember &amp; Oak</span><span className="text-white/80"> Kitchen</span></p>
+            <p className="font-bold text-lg"><span className="text-amber-500">{restaurantName}</span><span className="text-white/80"> Kitchen</span></p>
             <p className="text-white/30 text-xs mt-1">© {new Date().getFullYear()} All rights reserved.</p>
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-4 text-white/40">
-            <a href="tel:5550000000" className="hover:text-white/70 transition-colors">(555) 000-0000</a>
+            <a href={`tel:${phone.replace(/\D/g, '')}`} className="hover:text-white/70 transition-colors">{phone}</a>
             <span className="hidden sm:inline text-white/20">·</span>
-            <span>Your City, ST 00000</span>
+            <span>{address}</span>
           </div>
           <div className="flex flex-col items-center sm:items-end gap-1 text-white/30 text-xs">
-            <span>Mon–Thu: 5pm – 10pm</span>
-            <span>Fri–Sat: 5pm – 11pm &nbsp;·&nbsp; Sun: 4pm – 9pm</span>
+            <span>{hoursWeekday}</span>
+            <span>{hoursWeekend} &nbsp;·&nbsp; {hoursSunday}</span>
           </div>
         </div>
       </footer>

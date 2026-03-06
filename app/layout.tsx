@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import { SanityLive } from "@/sanity/lib/live";
 
 const geist = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,7 @@ export default function RootLayout({
       <body className={`${geist.variable} ${playfair.variable} antialiased bg-stone-950 text-white`}>
         <Navbar />
         {children}
+        <SanityLive />
       </body>
     </html>
   );
