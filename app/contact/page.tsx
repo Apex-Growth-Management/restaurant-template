@@ -15,8 +15,12 @@ export default function ContactPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus("sending");
-    await new Promise((r) => setTimeout(r, 1000));
-    setStatus("success");
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
+    setStatus(res.ok ? "success" : "error");
   }
 
   return (
@@ -135,7 +139,7 @@ export default function ContactPage() {
 
               <button
                 type="submit" disabled={status === "sending"}
-                className="bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black font-bold py-4 rounded-lg text-lg transition-colors mt-2"
+                className="bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black font-bold py-4 rounded-lg text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-amber-500/30 mt-2"
               >
                 {status === "sending" ? "Sending..." : "Request Reservation"}
               </button>
@@ -149,7 +153,8 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-      <footer className="border-t border-white/10 py-10 px-6 bg-stone-950">
+
+      <footer className="border-t border-white/10 py-10 px-6 bg-stone-950 pb-24 md:pb-10">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-sm">
           <div>
             <p className="font-bold text-lg"><span className="text-amber-500">Ember &amp; Oak</span><span className="text-white/80"> Kitchen</span></p>

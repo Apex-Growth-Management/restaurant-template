@@ -1,6 +1,17 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { Leaf, Users, Target } from "lucide-react";
+import FadeIn from "@/components/FadeIn";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description: "Ember & Oak Kitchen opened in 2019 in Raleigh, NC. Locally sourced ingredients, craft cocktails, and a team passionate about exceptional dining.",
+  openGraph: {
+    title: "About Ember & Oak Kitchen",
+    description: "Our story, our team, and the values behind every dish we serve.",
+  },
+};
 
 const team = [
   {
@@ -41,53 +52,63 @@ export default function AboutPage() {
           className="object-cover"
         />
         <div className="absolute inset-0 bg-black/70" />
-        <div className="relative z-10 max-w-3xl mx-auto text-center">
-          <p className="text-amber-500 text-sm font-semibold uppercase tracking-widest mb-3">Our Story</p>
-          <h1 className="text-4xl md:text-6xl font-extrabold mb-6">Built Around the Table</h1>
-          <p className="text-white/70 text-lg leading-relaxed">
-            Ember & Oak Kitchen opened in 2019 with one goal: create a place where people actually want to linger. Not just eat — but stay, talk, and come back.
-          </p>
-        </div>
+        <FadeIn>
+          <div className="relative z-10 max-w-3xl mx-auto text-center">
+            <p className="text-amber-500 text-sm font-semibold uppercase tracking-widest mb-3">Our Story</p>
+            <h1 className="text-4xl md:text-6xl font-extrabold mb-6">Built Around the Table</h1>
+            <p className="text-white/70 text-lg leading-relaxed">
+              Ember & Oak Kitchen opened in 2019 with one goal: create a place where people actually want to linger. Not just eat — but stay, talk, and come back.
+            </p>
+          </div>
+        </FadeIn>
       </section>
 
       {/* Story */}
       <section className="py-20 px-6">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          <div className="relative rounded-2xl overflow-hidden h-96">
-            <Image
-              src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80&fit=crop"
-              alt="Restaurant dining room"
-              fill
-              className="object-cover"
-            />
-          </div>
-          <div>
-            <h2 className="text-2xl md:text-3xl font-extrabold mb-4">From a Dream to Downtown Raleigh</h2>
-            <p className="text-white/60 leading-relaxed mb-4">
-              Chef Marcus Webb spent years cooking in Michelin-starred kitchens before deciding he wanted something more personal. He partnered with childhood friend and hospitality veteran Diane Okafor to open a neighborhood restaurant that felt as comfortable as it did impressive.
-            </p>
-            <p className="text-white/60 leading-relaxed">
-              The name &ldquo;Ember & Oak&rdquo; was chosen deliberately — fire and wood, two elements that define how we cook. Low and slow. With intention.
-            </p>
-          </div>
+          <FadeIn>
+            <div className="relative rounded-2xl overflow-hidden h-96 shadow-xl">
+              <Image
+                src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80&fit=crop"
+                alt="Restaurant dining room"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </FadeIn>
+          <FadeIn delay={150}>
+            <div>
+              <h2 className="text-2xl md:text-3xl font-extrabold mb-4">From a Dream to Downtown Raleigh</h2>
+              <p className="text-white/60 leading-relaxed mb-4">
+                Chef Marcus Webb spent years cooking in Michelin-starred kitchens before deciding he wanted something more personal. He partnered with childhood friend and hospitality veteran Diane Okafor to open a neighborhood restaurant that felt as comfortable as it did impressive.
+              </p>
+              <p className="text-white/60 leading-relaxed">
+                The name &ldquo;Ember & Oak&rdquo; was chosen deliberately — fire and wood, two elements that define how we cook. Low and slow. With intention.
+              </p>
+            </div>
+          </FadeIn>
         </div>
       </section>
 
       {/* Values */}
       <section className="py-20 px-6 bg-stone-900">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-extrabold">What We Stand For</h2>
-          </div>
+          <FadeIn>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-extrabold">What We Stand For</h2>
+            </div>
+          </FadeIn>
           <div className="grid md:grid-cols-3 gap-8">
-            {values.map(({ Icon, title, desc }) => (
-              <div key={title} className="bg-stone-950 border border-white/10 rounded-2xl p-6 text-center">
-                <div className="w-12 h-12 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Icon className="w-6 h-6 text-amber-500" />
+            {values.map(({ Icon, title, desc }, i) => (
+              <FadeIn key={title} delay={i * 100}>
+                <div className="bg-stone-950 border border-white/10 rounded-2xl p-6 text-center hover:border-amber-500/30 hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+                  <div className="w-12 h-12 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                    <Icon className="w-6 h-6 text-amber-500" />
+                  </div>
+                  <h3 className="font-bold text-lg mb-2">{title}</h3>
+                  <p className="text-white/50 text-sm leading-relaxed">{desc}</p>
                 </div>
-                <h3 className="font-bold text-lg mb-2">{title}</h3>
-                <p className="text-white/50 text-sm leading-relaxed">{desc}</p>
-              </div>
+              </FadeIn>
             ))}
           </div>
         </div>
@@ -102,36 +123,42 @@ export default function AboutPage() {
           className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-          <p className="text-2xl md:text-4xl font-extrabold text-center max-w-xl px-6 text-white">
-            &ldquo;Every plate is a promise to do it right.&rdquo;
-          </p>
+          <FadeIn>
+            <p className="text-2xl md:text-4xl font-extrabold text-center max-w-xl px-6 text-white">
+              &ldquo;Every plate is a promise to do it right.&rdquo;
+            </p>
+          </FadeIn>
         </div>
       </section>
 
       {/* Team */}
       <section className="py-20 px-6 bg-stone-900">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-amber-500 text-sm font-semibold uppercase tracking-widest mb-3">The People Behind the Plates</p>
-            <h2 className="text-3xl font-extrabold">Meet the Team</h2>
-          </div>
+          <FadeIn>
+            <div className="text-center mb-12">
+              <p className="text-amber-500 text-sm font-semibold uppercase tracking-widest mb-3">The People Behind the Plates</p>
+              <h2 className="text-3xl font-extrabold">Meet the Team</h2>
+            </div>
+          </FadeIn>
           <div className="grid md:grid-cols-3 gap-8">
-            {team.map((member) => (
-              <div key={member.name} className="bg-stone-950 border border-white/10 rounded-2xl overflow-hidden">
-                <div className="relative h-56">
-                  <Image
-                    src={member.photo}
-                    alt={member.name}
-                    fill
-                    className="object-cover"
-                  />
+            {team.map((member, i) => (
+              <FadeIn key={member.name} delay={i * 120}>
+                <div className="bg-stone-950 border border-white/10 rounded-2xl overflow-hidden hover:border-amber-500/30 hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+                  <div className="relative h-56">
+                    <Image
+                      src={member.photo}
+                      alt={member.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="p-5">
+                    <h3 className="font-bold text-lg">{member.name}</h3>
+                    <p className="text-amber-500 text-sm mb-3">{member.role}</p>
+                    <p className="text-white/50 text-sm leading-relaxed">{member.bio}</p>
+                  </div>
                 </div>
-                <div className="p-5">
-                  <h3 className="font-bold text-lg">{member.name}</h3>
-                  <p className="text-amber-500 text-sm mb-3">{member.role}</p>
-                  <p className="text-white/50 text-sm leading-relaxed">{member.bio}</p>
-                </div>
-              </div>
+              </FadeIn>
             ))}
           </div>
         </div>
@@ -139,16 +166,19 @@ export default function AboutPage() {
 
       {/* CTA */}
       <section className="py-20 px-6 text-center">
-        <h2 className="text-3xl font-extrabold mb-4">Come Experience It Yourself</h2>
-        <p className="text-white/50 mb-8">Reservations recommended. Walk-ins always welcome.</p>
-        <Link
-          href="/contact"
-          className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-8 py-4 rounded-lg text-lg transition-colors"
-        >
-          Reserve a Table
-        </Link>
+        <FadeIn>
+          <h2 className="text-3xl font-extrabold mb-4">Come Experience It Yourself</h2>
+          <p className="text-white/50 mb-8">Reservations recommended. Walk-ins always welcome.</p>
+          <Link
+            href="/contact"
+            className="inline-block bg-amber-500 hover:bg-amber-400 text-black font-bold px-8 py-4 rounded-lg text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-amber-500/30"
+          >
+            Reserve a Table
+          </Link>
+        </FadeIn>
       </section>
-      <footer className="border-t border-white/10 py-10 px-6 bg-stone-950">
+
+      <footer className="border-t border-white/10 py-10 px-6 bg-stone-950 pb-24 md:pb-10">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-sm">
           <div>
             <p className="font-bold text-lg"><span className="text-amber-500">Ember &amp; Oak</span><span className="text-white/80"> Kitchen</span></p>
